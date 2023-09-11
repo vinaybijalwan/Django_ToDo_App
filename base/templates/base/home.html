@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ToDo App</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+    <body>
+        <h1 class="todo">This is New To Do App</h1>
+        <div class="container">
+          <form method="post">
+            {% csrf_token %}  <!-- Include the CSRF token for security -->
+            {{ form.as_p }}    <!-- Render the form fields as paragraphs -->
+            <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <div>
+        {% for data in todos %}
+          <h3>{{ data.text }}</h3>
+
+        {% endfor %}
+      </div>
+
+    </body>
+</html>
