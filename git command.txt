@@ -1,0 +1,13 @@
+Step 1:
+Open the terminal.
+
+Change the current working directory to your local repository.
+
+> git init
+
+Stage the file for commit to your local repository by the following command.
+
+
+> git add .
+
+> 

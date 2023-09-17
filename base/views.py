@@ -1,24 +1,45 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import ToDo
-from .forms import ToDoForm
+
 
 
 # Create your views here.
 
-def homepage(request):
+def homepageNew(request):
     todos = ToDo.objects.all()
     if request.method == "POST":
-        form = ToDoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Redirect to a different page after saving the form
-            return redirect('home')
-    else:
-        form = ToDoForm()
+        post = ToDo()
+        post.title = request.POST['title']
+        post.save()
+        
+        return redirect('homeNew')
     context = {
-        'todos': todos,
-        'form': form,
-    }
+            'todos': todos,
+             }
+        
     return render(request, 'base/home.html', context)
+    
 
 
+
+def delete_todo(request, todo_id):
+    # Fetch the to-do item to delete using get_object_or_404
+    todo = get_object_or_404(ToDo, pk=todo_id)
+
+    if request.method == 'POST':
+        # Delete the to-do item
+        todo.delete()
+
+    # Redirect back to the homepage or any other desired page
+    return redirect('homeNew')
+
+
+def edit_todo(request, todo_id):
+    todo = get_object_or_404(ToDo, pk=todo_id)
+
+    if request.method == 'POST':
+        edited_title = request.POST['edited_title']
+        todo.title = edited_title
+        todo.save()
+
+    return redirect('homeNew')
